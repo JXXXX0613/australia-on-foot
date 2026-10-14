@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Australia on Foot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+
+<div class="demo-banner">DEMO for studio critique: all numbers below are <strong>placeholders</strong>. Map boundaries are real; the participation, visitor, seasonality and trail figures will be replaced with the sources listed at the bottom.</div>
+
+<!-- 1. Introduction -->
+<header class="hero">
+  <svg class="hero-art" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0 230 L120 150 L210 200 L340 90 L470 190 L560 140 L700 210 L820 120 L930 180 L1040 100 L1200 170 L1200 300 L0 300Z" fill="#c9d8c0"/>
+    <path d="M0 260 L150 200 L290 240 L430 180 L600 250 L760 190 L900 240 L1060 200 L1200 230 L1200 300 L0 300Z" fill="#8fb38a"/>
+    <path d="M0 285 L200 255 L420 280 L640 250 L860 280 L1060 258 L1200 275 L1200 300 L0 300Z" fill="#4f7d55"/>
+    <g fill="#2f5a3a">
+      <path d="M60 275 l14 -46 l14 46z"/><path d="M90 278 l10 -34 l10 34z"/>
+      <path d="M1090 268 l15 -50 l15 50z"/><path d="M1122 272 l11 -38 l11 38z"/>
+      <path d="M980 276 l9 -30 l9 30z"/>
+    </g>
+  </svg>
+  <div class="wrap hero-text">
+    <p class="kicker">A data story about bushwalking</p>
+    <h1>Australia on Foot</h1>
+    <p class="lede">Where do Australians hike, who heads out on the trail, and what makes some of our national parks so much busier than others?</p>
+    <a class="scroll-cue" href="#why">Scroll to start the walk ↓</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 2. Why it matters -->
+  <section id="why" class="section">
+    <div class="section-head">
+      <span class="num">2</span>
+      <div>
+        <h2>Why it matters</h2>
+        <p class="intro">Bushwalking is one of the most popular physical activities in Australia. It costs almost nothing, suits every age group and gets people into the country's national parks.</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="stat-icon">🥾</span><span class="stat-big">3.5 M</span><span class="stat-label">Australians bushwalked at least once in 2023</span></div>
+      <div class="stat"><span class="stat-icon">🗺️</span><span class="stat-big">1 in 7</span><span class="stat-label">adults go bushwalking regularly</span></div>
+      <div class="stat"><span class="stat-icon">📈</span><span class="stat-big">+20%</span><span class="stat-label">growth in participation, 2019–2023</span></div>
+    </div>
+  </section>
+
+  <!-- 3–4. Participation -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">3</span>
+      <div>
+        <h2>Who goes hiking, and where?</h2>
+        <p class="intro">Participation is highest in the cooler south. Tasmanians and Canberrans are the keenest walkers, while Queensland has the lowest rate.</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <figure class="card">
+        <figcaption><h3>Where do Australians hike?</h3><p>Share of adults who bushwalk, by state and territory. Hover over a state to see its rate.</p></figcaption>
+        <div id="vis1" class="vis"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><h3>Who goes hiking?</h3><p>Participation by age group and gender. Hiking peaks at <strong>55–64</strong>. Click the legend to show one gender only.</p></figcaption>
+        <div id="vis2" class="vis"></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5–6. Destinations -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">4</span>
+      <div>
+        <h2>Popular national parks</h2>
+        <p class="intro">Visitors cluster near the big cities. The Blue Mountains, about two hours from Sydney, attracts more visitors than Kakadu and Uluru-Kata Tjuta put together.</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <figure class="card">
+        <figcaption><h3>Visitors to major national parks</h3><p>Circle area shows annual visitors. Use the slider to hide the smaller parks.</p></figcaption>
+        <div id="vis3" class="vis"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><h3>Top 10 parks by visitors</h3><p>The same parks ranked, so their exact values are easy to compare.</p></figcaption>
+        <div id="vis4" class="vis"></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 7–8. Time & trails -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">5</span>
+      <div>
+        <h2>When and where people walk</h2>
+        <p class="intro">The hiking season flips with latitude. The tropical north is busiest in the dry winter months (May–Sep), while Tasmania peaks in summer.</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <figure class="card">
+        <figcaption><h3>When do people hike?</h3><p>Monthly park visits as a percentage of each state's busiest month. Click a row to highlight that state.</p></figcaption>
+        <div id="vis5" class="vis"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><h3>Australia's great walks</h3><p>Multi-day walking routes coloured by difficulty. Click the legend to filter; hover over a route for details.</p></figcaption>
+        <div id="vis6" class="vis"></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 9–10. Trail characteristics -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">6</span>
+      <div>
+        <h2>What makes a trail challenging?</h2>
+        <p class="intro">Distance alone doesn't make a walk hard. The climb matters just as much. Most day walks are rated Easy or Moderate, so there is a trail for everyone.</p>
+      </div>
+    </div>
+    <div class="grid-2 grid-wide-left">
+      <figure class="card">
+        <figcaption><h3>Distance vs elevation gain</h3><p>Each dot is one day walk. "Elevation gain" means the total metres you climb along the walk.</p></figcaption>
+        <div id="vis7" class="vis"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><h3>How difficult are the trails?</h3><p>Share of day walks in each difficulty class. <strong>Click a segment</strong> to highlight those walks in the scatterplot.</p></figcaption>
+        <div id="vis8" class="vis"></div>
+        <ul class="legend-notes">
+          <li><span class="sw easy"></span><b>Easy</b> – mostly flat, suits beginners and families</li>
+          <li><span class="sw mod"></span><b>Moderate</b> – some hills; needs basic fitness</li>
+          <li><span class="sw hard"></span><b>Hard</b> – long, steep, for experienced walkers</li>
+        </ul>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 11–12. Conclusion -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">7</span>
+      <div><h2>Key takeaways</h2></div>
+    </div>
+    <div class="grid-2">
+      <ul class="takeaways card">
+        <li><span>⛰️</span>Bushwalking participation is growing across Australia, and the cooler southern states lead.</li>
+        <li><span>👥</span>Middle-aged and older Australians walk the most.</li>
+        <li><span>📍</span>Visitors concentrate in a handful of parks close to the major cities.</li>
+        <li><span>☀️</span>Season and climb shape where and when people choose to walk.</li>
+      </ul>
+      <div class="closing card">
+        <p class="closing-quote">From the Bibbulmun to the Overland Track, Australia's landscapes give everyone a reason to lace up their boots.</p>
+        <p>Pick a trail that suits your fitness, go in the right season, and leave no trace.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap meta">
+  <div>
+    <h4>Data sources <em>(to be finalised)</em></h4>
+    <ul>
+      <li>State and territory boundaries: Australian Bureau of Statistics ASGS, via <a href="https://github.com/rowanhogan/australian-states">rowanhogan/australian-states</a></li>
+      <li>Participation by state, age and gender: AusPlay survey, Australian Sports Commission (planned)</li>
+      <li>National park visitor numbers: state park agencies' annual reports (planned)</li>
+      <li>Trail routes and difficulty: state parks walk databases / OpenStreetMap (planned)</li>
+    </ul>
+  </div>
+  <div>
+    <h4>About</h4>
+    <p>Author: <strong>Jiajing Xu</strong> · FIT3179 Data Visualisation 2 · Monash University<br>
+    Created October 2026 · Built with Vega-Lite<br>
+    AI acknowledgement: page layout and code drafted with help from Claude (Anthropic).</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

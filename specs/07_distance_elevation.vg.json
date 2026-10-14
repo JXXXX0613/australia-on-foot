@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Scatterplot: day-walk distance vs elevation gain, coloured by difficulty",
+  "width": "container",
+  "height": 300,
+  "data": {"url": "data/day_walks.csv"},
+  "params": [{"name": "selDiff", "value": null}],
+  "layer": [
+    {
+      "mark": {"type": "circle", "size": 55, "stroke": "#fffdf7", "strokeWidth": 0.6},
+      "encoding": {
+        "x": {"field": "distance_km", "type": "quantitative", "title": "Trail distance (km)", "scale": {"domain": [0, 30]}},
+        "y": {"field": "elevation_gain_m", "type": "quantitative", "title": "Elevation gain (m)"},
+        "color": {"field": "difficulty", "type": "nominal", "scale": {"domain": ["Easy", "Moderate", "Hard"], "range": ["#5a9e4b", "#3f7fb5", "#c4473a"]}, "legend": {"title": null, "orient": "top-left"}},
+        "opacity": {"condition": {"test": "selDiff == null || datum.difficulty == selDiff", "value": 0.9}, "value": 0.08},
+        "tooltip": [{"field": "distance_km", "title": "Distance (km)"}, {"field": "elevation_gain_m", "title": "Elevation gain (m)"}, {"field": "difficulty"}]
+      }
+    },
+    {
+      "data": {"values": [{"x": 17, "y": 1400, "t": "Long + steep = Hard"}, {"x": 1, "y": 420, "t": "Short & flat = Easy"}]},
+      "mark": {"type": "text", "align": "left", "fontSize": 11, "fontWeight": 600, "color": "#1d2b22"},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}, "y": {"field": "y", "type": "quantitative"}, "text": {"field": "t"}}
+    }
+  ]
+}

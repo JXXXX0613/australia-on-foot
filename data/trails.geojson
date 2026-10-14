@@ -1,0 +1,492 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Larapinta Trail",
+    "state": "NT",
+    "difficulty": "Hard",
+    "length_km": 223,
+    "days": 12
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      133.87,
+      -23.7
+     ],
+     [
+      133.47,
+      -23.72
+     ],
+     [
+      132.73,
+      -23.63
+     ],
+     [
+      132.57,
+      -23.58
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Jatbula Trail",
+    "state": "NT",
+    "difficulty": "Moderate",
+    "length_km": 62,
+    "days": 5
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      132.38,
+      -14.32
+     ],
+     [
+      132.3,
+      -14.2
+     ],
+     [
+      132.18,
+      -14.18
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Overland Track",
+    "state": "TAS",
+    "difficulty": "Moderate",
+    "length_km": 65,
+    "days": 6
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      145.94,
+      -41.64
+     ],
+     [
+      146.05,
+      -41.83
+     ],
+     [
+      146.17,
+      -42.11
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Three Capes Track",
+    "state": "TAS",
+    "difficulty": "Moderate",
+    "length_km": 48,
+    "days": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      147.85,
+      -43.14
+     ],
+     [
+      147.98,
+      -43.22
+     ],
+     [
+      147.97,
+      -43.12
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Bay of Fires Walk",
+    "state": "TAS",
+    "difficulty": "Easy",
+    "length_km": 33,
+    "days": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      148.3,
+      -40.95
+     ],
+     [
+      148.32,
+      -41.1
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Bibbulmun Track",
+    "state": "WA",
+    "difficulty": "Hard",
+    "length_km": 1000,
+    "days": 55
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      116.06,
+      -31.97
+     ],
+     [
+      116.06,
+      -32.71
+     ],
+     [
+      116.15,
+      -33.36
+     ],
+     [
+      115.98,
+      -34.09
+     ],
+     [
+      116.03,
+      -34.44
+     ],
+     [
+      116.73,
+      -34.98
+     ],
+     [
+      117.35,
+      -34.96
+     ],
+     [
+      117.88,
+      -35.02
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Cape to Cape Track",
+    "state": "WA",
+    "difficulty": "Moderate",
+    "length_km": 124,
+    "days": 7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      115.01,
+      -33.53
+     ],
+     [
+      115.0,
+      -33.98
+     ],
+     [
+      115.14,
+      -34.37
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Kep Track",
+    "state": "WA",
+    "difficulty": "Easy",
+    "length_km": 75,
+    "days": 3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      116.17,
+      -31.9
+     ],
+     [
+      116.4,
+      -31.8
+     ],
+     [
+      116.67,
+      -31.65
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Heysen Trail",
+    "state": "SA",
+    "difficulty": "Hard",
+    "length_km": 1200,
+    "days": 60
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      138.1,
+      -35.6
+     ],
+     [
+      138.71,
+      -34.98
+     ],
+     [
+      138.93,
+      -33.68
+     ],
+     [
+      138.61,
+      -31.53
+     ],
+     [
+      138.55,
+      -31.13
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Riesling Trail",
+    "state": "SA",
+    "difficulty": "Easy",
+    "length_km": 33,
+    "days": 2
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      138.6,
+      -33.83
+     ],
+     [
+      138.62,
+      -34.08
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Great Ocean Walk",
+    "state": "VIC",
+    "difficulty": "Moderate",
+    "length_km": 104,
+    "days": 8
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      143.67,
+      -38.76
+     ],
+     [
+      143.51,
+      -38.86
+     ],
+     [
+      143.1,
+      -38.66
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Two Bays Walking Track",
+    "state": "VIC",
+    "difficulty": "Easy",
+    "length_km": 26,
+    "days": 2
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      144.97,
+      -38.34
+     ],
+     [
+      144.89,
+      -38.49
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Australian Alps Walking Track",
+    "state": "VIC/NSW/ACT",
+    "difficulty": "Hard",
+    "length_km": 655,
+    "days": 45
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      146.45,
+      -37.94
+     ],
+     [
+      147.13,
+      -36.98
+     ],
+     [
+      147.28,
+      -36.87
+     ],
+     [
+      148.3,
+      -36.5
+     ],
+     [
+      148.5,
+      -35.87
+     ],
+     [
+      149.07,
+      -35.51
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Six Foot Track",
+    "state": "NSW",
+    "difficulty": "Moderate",
+    "length_km": 45,
+    "days": 3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      150.28,
+      -33.7
+     ],
+     [
+      150.02,
+      -33.82
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Great North Walk",
+    "state": "NSW",
+    "difficulty": "Moderate",
+    "length_km": 250,
+    "days": 14
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      151.21,
+      -33.86
+     ],
+     [
+      151.15,
+      -33.62
+     ],
+     [
+      151.27,
+      -33.22
+     ],
+     [
+      151.78,
+      -32.93
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "Thorsborne Trail",
+    "state": "QLD",
+    "difficulty": "Moderate",
+    "length_km": 32,
+    "days": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      146.18,
+      -18.27
+     ],
+     [
+      146.27,
+      -18.5
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "trail": "K'gari (Fraser Island) Great Walk",
+    "state": "QLD",
+    "difficulty": "Moderate",
+    "length_km": 90,
+    "days": 7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      153.06,
+      -25.59
+     ],
+     [
+      153.05,
+      -25.44
+     ],
+     [
+      153.2,
+      -25.33
+     ]
+    ]
+   }
+  }
+ ]
+}

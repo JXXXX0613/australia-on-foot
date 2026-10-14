@@ -1,0 +1,33 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "100% stacked bar: share of day walks by difficulty (click a segment to filter the scatterplot)",
+  "width": "container",
+  "height": 70,
+  "data": {"url": "data/day_walks.csv"},
+  "transform": [
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["difficulty"]},
+    {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]},
+    {"calculate": "datum.n / datum.total", "as": "share"},
+    {"calculate": "indexof(['Easy','Moderate','Hard'], datum.difficulty)", "as": "ord"},
+    {"stack": "share", "groupby": [], "sort": [{"field": "ord"}], "as": ["x0", "x1"]},
+    {"calculate": "(datum.x0 + datum.x1) / 2", "as": "mid"},
+    {"calculate": "datum.difficulty + '  ' + format(datum.share, '.0%')", "as": "lab"}
+  ],
+  "layer": [
+    {
+      "params": [{"name": "pick", "select": {"type": "point", "fields": ["difficulty"], "on": "click"}}],
+      "mark": {"type": "bar", "cursor": "pointer", "stroke": "#fffdf7", "strokeWidth": 2},
+      "encoding": {
+        "x": {"field": "x0", "type": "quantitative", "scale": {"domain": [0, 1]}, "axis": {"format": "%", "title": null, "grid": false, "values": [0, 0.25, 0.5, 0.75, 1]}},
+        "x2": {"field": "x1"},
+        "color": {"field": "difficulty", "type": "nominal", "scale": {"domain": ["Easy", "Moderate", "Hard"], "range": ["#5a9e4b", "#3f7fb5", "#c4473a"]}, "legend": null},
+        "opacity": {"condition": {"param": "pick", "value": 1}, "value": 0.3},
+        "tooltip": [{"field": "difficulty"}, {"field": "n", "title": "Walks"}, {"field": "share", "format": ".0%", "title": "Share"}]
+      }
+    },
+    {
+      "mark": {"type": "text", "color": "#fffdf7", "fontWeight": 700, "fontSize": 12},
+      "encoding": {"x": {"field": "mid", "type": "quantitative"}, "text": {"field": "lab"}}
+    }
+  ]
+}

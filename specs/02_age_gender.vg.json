@@ -1,0 +1,129 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Grouped bar chart: participation by age group and gender",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "data/age_gender.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 2,
+        "cornerRadiusTopRight": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "ordinal",
+          "sort": null,
+          "title": "Age group",
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "xOffset": {
+          "field": "gender",
+          "sort": [
+            "Male",
+            "Female"
+          ]
+        },
+        "y": {
+          "field": "participation",
+          "type": "quantitative",
+          "title": "Participation rate (%)",
+          "scale": {
+            "domain": [
+              0,
+              40
+            ]
+          }
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "sort": [
+            "Male",
+            "Female"
+          ],
+          "scale": {
+            "range": [
+              "#2f6f73",
+              "#d08a3c"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "top",
+            "direction": "horizontal"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "g",
+            "value": 1
+          },
+          "value": 0.15
+        },
+        "tooltip": [
+          {
+            "field": "age",
+            "title": "Age"
+          },
+          {
+            "field": "gender"
+          },
+          {
+            "field": "participation",
+            "title": "Participation (%)"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "g",
+          "select": {
+            "type": "point",
+            "fields": [
+              "gender"
+            ]
+          },
+          "bind": "legend"
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "age": "55–64",
+            "y": 34,
+            "t": "Peak: 55–64"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "dy": -12,
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#1d2b22"
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}

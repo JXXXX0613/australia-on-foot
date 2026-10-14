@@ -1,0 +1,151 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Proportional symbol map: annual visitors to national parks",
+  "width": "container",
+  "height": 380,
+  "params": [
+    {
+      "name": "minV",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "name": "Hide parks under (million visitors): "
+      }
+    }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+      -18,
+      -36
+    ],
+    "rotate": [
+      -134,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/aus_states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ece4d0",
+        "stroke": "#fffdf7",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "url": "data/parks.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "fill": "#c8742c",
+        "fillOpacity": 0.65,
+        "stroke": "#7a3f12",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "visitors_m",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "range": [
+              15,
+              1400
+            ],
+            "domain": [
+              0,
+              2.7
+            ]
+          },
+          "legend": {
+            "title": "Visitors (millions)",
+            "orient": "bottom",
+            "values": [
+              0.1,
+              0.5,
+              1,
+              2
+            ],
+            "symbolFillColor": "#c8742c",
+            "symbolOpacity": 0.65,
+            "direction": "horizontal"
+          }
+        },
+        "order": {
+          "field": "visitors_m",
+          "sort": "descending"
+        },
+        "tooltip": [
+          {
+            "field": "park",
+            "title": "National park"
+          },
+          {
+            "field": "state"
+          },
+          {
+            "field": "visitors_m",
+            "title": "Visitors (m / yr)",
+            "format": ".2f"
+          }
+        ],
+        "opacity": {
+          "condition": {
+            "test": "datum.visitors_m >= minV",
+            "value": 1
+          },
+          "value": 0.06
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 141.5,
+            "lat": -40.6,
+            "t": "Busiest parks cluster in the south-east ↗"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#1d2b22"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon"
+        },
+        "latitude": {
+          "field": "lat"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}

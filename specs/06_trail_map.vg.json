@@ -1,0 +1,201 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Flow / route map: Australia's great walks, coloured by difficulty",
+  "width": "container",
+  "height": 380,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+      -18,
+      -36
+    ],
+    "rotate": [
+      -134,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/aus_states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ece4d0",
+        "stroke": "#fffdf7",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "filled": false,
+        "strokeWidth": 3.5,
+        "strokeCap": "round",
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "stroke": {
+          "field": "properties.difficulty",
+          "type": "nominal",
+          "title": "Difficulty",
+          "scale": {
+            "domain": [
+              "Easy",
+              "Moderate",
+              "Hard"
+            ],
+            "range": [
+              "#5a9e4b",
+              "#3f7fb5",
+              "#c4473a"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "symbolType": "stroke",
+            "symbolStrokeWidth": 3.5
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "diff",
+            "value": 1
+          },
+          "value": 0.12
+        },
+        "tooltip": [
+          {
+            "field": "properties.trail",
+            "title": "Trail"
+          },
+          {
+            "field": "properties.state",
+            "title": "State"
+          },
+          {
+            "field": "properties.difficulty",
+            "title": "Difficulty"
+          },
+          {
+            "field": "properties.length_km",
+            "title": "Length (km)"
+          },
+          {
+            "field": "properties.days",
+            "title": "Typical days"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "diff",
+          "select": {
+            "type": "point",
+            "fields": [
+              "difficulty"
+            ]
+          },
+          "bind": "legend"
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "data/trail_starts.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "size": 40,
+        "fill": "#fffdf7",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "stroke": {
+          "field": "difficulty",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Easy",
+              "Moderate",
+              "Hard"
+            ],
+            "range": [
+              "#5a9e4b",
+              "#3f7fb5",
+              "#c4473a"
+            ]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "param": "diff",
+            "value": 1
+          },
+          "value": 0.12
+        },
+        "tooltip": [
+          {
+            "field": "trail",
+            "title": "Trailhead of"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 117.3,
+            "lat": -30.6,
+            "t": "Bibbulmun Track: 1,000 km"
+          },
+          {
+            "lon": 133.3,
+            "lat": -22.4,
+            "t": "Larapinta Trail"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#1d2b22",
+        "align": "left"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon"
+        },
+        "latitude": {
+          "field": "lat"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}
