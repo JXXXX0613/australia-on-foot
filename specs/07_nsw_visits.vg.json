@@ -1,61 +1,50 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Ranked lollipop chart: top 10 national parks by visitors",
+  "description": "Lollipop chart: NSW's ten most visited parks, 2024-25 (NPWS Park Visitation Survey)",
   "width": "container",
-  "height": 340,
+  "height": 330,
   "data": {
-    "url": "data/parks.csv"
+    "url": "data/nsw_top10_visits_2024_25.csv"
   },
   "transform": [
     {
-      "window": [
-        {
-          "op": "rank",
-          "as": "rank"
-        }
-      ],
-      "sort": [
-        {
-          "field": "visitors_m",
-          "order": "descending"
-        }
-      ]
+      "calculate": "replace(replace(datum.park, ' National Park', ''), ' State Conservation Area', ' SCA')",
+      "as": "short"
     },
     {
-      "filter": "datum.rank <= 10"
+      "calculate": "datum.visits_m * 1000000 / datum.area_km2",
+      "as": "per_km2"
     }
   ],
   "encoding": {
     "y": {
-      "field": "park",
+      "field": "short",
       "type": "nominal",
       "sort": "-x",
       "title": null,
       "axis": {
         "domain": false,
         "ticks": false,
-        "labelLimit": 260
+        "labelLimit": 200
       }
     },
     "x": {
-      "field": "visitors_m",
+      "field": "visits_m",
       "type": "quantitative",
-      "title": "Annual visitors (millions)",
+      "title": "Visits in 2024-25 (millions)",
       "scale": {
         "domain": [
           0,
-          3
+          9
         ]
       },
       "axis": {
         "values": [
           0,
-          0.5,
-          1,
-          1.5,
           2,
-          2.5,
-          3
+          4,
+          6,
+          8
         ]
       }
     }
@@ -73,14 +62,14 @@
           "datum": 0
         },
         "x2": {
-          "field": "visitors_m"
+          "field": "visits_m"
         }
       }
     },
     {
       "mark": {
         "type": "circle",
-        "size": 120,
+        "size": 130,
         "color": "#c8742c",
         "opacity": 1
       },
@@ -90,12 +79,18 @@
             "field": "park"
           },
           {
-            "field": "state"
+            "field": "visits_m",
+            "title": "Visits (millions)"
           },
           {
-            "field": "visitors_m",
-            "title": "Visitors (m)",
-            "format": ".2f"
+            "field": "area_km2",
+            "title": "Area (km²)",
+            "format": ",.0f"
+          },
+          {
+            "field": "per_km2",
+            "title": "Visits per km²",
+            "format": ",.0f"
           }
         ]
       }
@@ -104,13 +99,13 @@
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": 9,
+        "dx": 10,
         "fontSize": 11,
         "color": "#4a4a42"
       },
       "encoding": {
         "text": {
-          "field": "visitors_m",
+          "field": "visits_m",
           "format": ".1f"
         }
       }

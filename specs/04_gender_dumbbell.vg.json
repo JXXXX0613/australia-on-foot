@@ -1,0 +1,118 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Dumbbell chart: male vs female bushwalking participation by state, 2025 (AusPlay)",
+  "width": "container",
+  "height": 280,
+  "data": {
+    "url": "data/ausplay_bushwalking_2025_state.csv"
+  },
+  "transform": [
+    {
+      "fold": [
+        "male_pct",
+        "female_pct"
+      ],
+      "as": [
+        "g",
+        "pct"
+      ]
+    },
+    {
+      "calculate": "datum.g == 'male_pct' ? 'Men' : 'Women'",
+      "as": "gender"
+    },
+    {
+      "calculate": "datum.state == 'AUS' ? 'National' : datum.state",
+      "as": "label"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "label",
+      "type": "nominal",
+      "title": null,
+      "sort": {
+        "field": "female_pct",
+        "order": "descending"
+      },
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelLimit": 140
+      }
+    },
+    "x": {
+      "field": "pct",
+      "type": "quantitative",
+      "title": "Adults who bushwalk (%)",
+      "scale": {
+        "domain": [
+          10,
+          32
+        ]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "color": "#cfc8b5",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "detail": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 130,
+        "opacity": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Men",
+              "Women"
+            ],
+            "range": [
+              "#2f6f73",
+              "#d08a3c"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "top",
+            "direction": "horizontal"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "name",
+            "title": "Area"
+          },
+          {
+            "field": "gender"
+          },
+          {
+            "field": "pct",
+            "title": "Participation (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    }
+  ],
+  "padding": {
+    "left": 24,
+    "right": 8,
+    "top": 4,
+    "bottom": 4
+  }
+}

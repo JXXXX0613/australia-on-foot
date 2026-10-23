@@ -1,0 +1,155 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Scatterplot: trail length vs total climb, log scales (OpenStreetMap + SRTM elevation)",
+  "width": "container",
+  "height": 340,
+  "data": {
+    "url": "data/trails.csv"
+  },
+  "params": [
+    {
+      "name": "selClass",
+      "value": null
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "length_km",
+      "type": "quantitative",
+      "title": "Trail length (km, log scale)",
+      "scale": {
+        "type": "log",
+        "domain": [
+          5,
+          4000
+        ]
+      },
+      "axis": {
+        "values": [
+          5,
+          10,
+          20,
+          50,
+          100,
+          200,
+          500,
+          1000,
+          2000
+        ]
+      }
+    },
+    "y": {
+      "field": "ascent_m",
+      "type": "quantitative",
+      "title": "Total climb (m, log scale)",
+      "scale": {
+        "type": "log",
+        "domain": [
+          50,
+          30000
+        ]
+      },
+      "axis": {
+        "values": [
+          50,
+          100,
+          200,
+          500,
+          1000,
+          2000,
+          5000,
+          10000,
+          20000
+        ]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "size": 110,
+        "stroke": "#fffdf7",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "climb_class",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Gentle",
+              "Hilly",
+              "Steep"
+            ],
+            "range": [
+              "#5a9e4b",
+              "#3f7fb5",
+              "#c4473a"
+            ]
+          },
+          "legend": {
+            "title": "Climb per km",
+            "orient": "top-left"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "test": "selClass == null || datum.climb_class == selClass",
+            "value": 0.95
+          },
+          "value": 0.1
+        },
+        "tooltip": [
+          {
+            "field": "trail"
+          },
+          {
+            "field": "state"
+          },
+          {
+            "field": "length_km",
+            "title": "Length (km)",
+            "format": ",.0f"
+          },
+          {
+            "field": "ascent_m",
+            "title": "Total climb (m)",
+            "format": ",.0f"
+          },
+          {
+            "field": "ascent_per_km",
+            "title": "Climb per km (m)",
+            "format": ".0f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "indexof(['Bibbulmun Track','Australian Alps Walking Track','Larapinta Trail','Overland Track','Kiama Coast Walk','Stirling Range Ridge Walk','Yuraygir Coastal Walk'], datum.trail) >= 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 9,
+        "fontSize": 11,
+        "color": "#1d2b22"
+      },
+      "encoding": {
+        "text": {
+          "field": "trail"
+        },
+        "opacity": {
+          "condition": {
+            "test": "selClass == null || datum.climb_class == selClass",
+            "value": 1
+          },
+          "value": 0.1
+        }
+      }
+    }
+  ]
+}

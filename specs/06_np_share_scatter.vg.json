@@ -1,0 +1,156 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Scatterplot: share of land that is national park vs bushwalking participation, by state (CAPAD 2024 + AusPlay 2025)",
+  "width": "container",
+  "height": 320,
+  "data": {
+    "url": "data/np_by_state.csv"
+  },
+  "transform": [
+    {
+      "lookup": "state",
+      "from": {
+        "data": {
+          "url": "data/ausplay_bushwalking_2025_state.csv"
+        },
+        "key": "state",
+        "fields": [
+          "participation_pct",
+          "name"
+        ]
+      }
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "np_share_pct",
+      "type": "quantitative",
+      "title": "Land that is national park (%)",
+      "scale": {
+        "domain": [
+          0,
+          36
+        ]
+      }
+    },
+    "y": {
+      "field": "participation_pct",
+      "type": "quantitative",
+      "title": "Adults who bushwalk (%)",
+      "scale": {
+        "domain": [
+          14,
+          29
+        ]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "size": 160,
+        "color": "#4f9157",
+        "opacity": 0.9,
+        "stroke": "#24663d"
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "name",
+            "title": "State / territory"
+          },
+          {
+            "field": "np_share_pct",
+            "title": "National park share of land (%)"
+          },
+          {
+            "field": "np_count",
+            "title": "Number of national parks"
+          },
+          {
+            "field": "participation_pct",
+            "title": "Adults who bushwalk (%)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dx": 12,
+        "align": "left",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#1d2b22"
+      },
+      "encoding": {
+        "text": {
+          "field": "state"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.state != 'QLD'"
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dx": 8,
+        "align": "left",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#1d2b22",
+        "dy": 12
+      },
+      "encoding": {
+        "text": {
+          "field": "state"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.state == 'QLD'"
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 20,
+            "y": 22.6,
+            "t": "TAS and ACT: most park land,"
+          },
+          {
+            "x": 20,
+            "y": 21.8,
+            "t": "and the keenest walkers"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#5d6458"
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}

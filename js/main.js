@@ -13,22 +13,16 @@ const config = {
 const opts = { actions: false, config, renderer: "svg" };
 
 const specs = [
-  ["#vis1", "specs/01_choropleth.vg.json"],
-  ["#vis2", "specs/02_age_gender.vg.json"],
-  ["#vis3", "specs/03_park_symbols.vg.json"],
-  ["#vis4", "specs/04_park_ranking.vg.json"],
-  ["#vis5", "specs/05_seasonality.vg.json"],
-  ["#vis6", "specs/06_trail_map.vg.json"],
-  ["#vis7", "specs/07_distance_elevation.vg.json"],
-  ["#vis8", "specs/08_difficulty_share.vg.json"]
+  "01_waffle", "02_choropleth", "03_age", "04_gender_dumbbell", "05_parks_map", "06_np_share_scatter",
+  "07_nsw_visits", "08_climate_heatmap", "09_trail_map", "10_trail_scatter", "11_climb_ranking"
 ];
 
-Promise.all(specs.map(([el, url]) => vegaEmbed(el, url, opts))).then(results => {
-  // Link the difficulty bar (vis8) to the scatterplot (vis7)
-  const scatter = results[6].view;
-  const share = results[7].view;
-  share.addSignalListener("pick", (_, value) => {
-    const d = value && value.difficulty ? value.difficulty[0] : null;
-    scatter.signal("selDiff", d).runAsync();
+Promise.all(specs.map((name, i) => vegaEmbed(`#vis${i + 1}`, `specs/${name}.vg.json`, opts))).then(results => {
+  // Clicking a trail in the ranking (vis11) highlights its climb class in the scatterplot (vis10)
+  const scatter = results[9].view;
+  const ranking = results[10].view;
+  ranking.addSignalListener("pick", (_, value) => {
+    const c = value && value.climb_class ? value.climb_class[0] : null;
+    scatter.signal("selClass", c).runAsync();
   });
 });

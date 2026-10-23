@@ -1,0 +1,181 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Heatmap: average daily maximum temperature by month at 14 national parks, 2025 (Open-Meteo / ERA5)",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "data/park_climate_2025.csv"
+  },
+  "transform": [
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.month - 1]",
+      "as": "mon"
+    },
+    {
+      "calculate": "replace(replace(datum.park, 'Tjoritja / ', ''), 'Cradle Mountain-Lake St Clair', 'Cradle Mountain') + ' (' + datum.state + ')'",
+      "as": "label"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "mean",
+          "field": "mean_max_temp_c",
+          "as": "annual"
+        }
+      ],
+      "groupby": [
+        "park"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "#fffdf7",
+        "strokeWidth": 1.5,
+        "cornerRadius": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "mon",
+          "type": "ordinal",
+          "sort": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ],
+          "title": null,
+          "axis": {
+            "orient": "top",
+            "labelAngle": 0,
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "y": {
+          "field": "label",
+          "type": "nominal",
+          "sort": {
+            "field": "annual",
+            "order": "descending"
+          },
+          "title": null,
+          "axis": {
+            "domain": false,
+            "ticks": false,
+            "labelLimit": 220
+          }
+        },
+        "color": {
+          "field": "mean_max_temp_c",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "redyellowblue",
+            "reverse": true,
+            "domainMid": 22,
+            "domain": [
+              2,
+              42
+            ]
+          },
+          "legend": {
+            "title": "Average daily high (°C)",
+            "orient": "bottom",
+            "gradientLength": 260
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "rowSel",
+            "value": 1
+          },
+          "value": 0.25
+        },
+        "tooltip": [
+          {
+            "field": "park"
+          },
+          {
+            "field": "mon",
+            "title": "Month"
+          },
+          {
+            "field": "mean_max_temp_c",
+            "title": "Average high (°C)"
+          },
+          {
+            "field": "rain_mm",
+            "title": "Rain (mm)"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "rowSel",
+          "select": {
+            "type": "point",
+            "fields": [
+              "park"
+            ],
+            "on": "click"
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 10
+      },
+      "encoding": {
+        "x": {
+          "field": "mon",
+          "type": "ordinal",
+          "sort": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ]
+        },
+        "y": {
+          "field": "label",
+          "type": "nominal",
+          "sort": {
+            "field": "annual",
+            "order": "descending"
+          }
+        },
+        "text": {
+          "field": "mean_max_temp_c",
+          "format": ".0f"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.mean_max_temp_c > 34 || datum.mean_max_temp_c < 8",
+            "value": "#ffffff"
+          },
+          "value": "#1d2b22"
+        }
+      }
+    }
+  ]
+}

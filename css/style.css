@@ -68,7 +68,16 @@ figcaption p { margin: 4px 0 12px; color: var(--muted); font-size: 15px; line-he
 .vis { width: 100%; }
 
 /* Stats */
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-why { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: stretch; }
+.waffle-card { display: flex; flex-direction: column; align-items: center; }
+.waffle-card figcaption { align-self: flex-start; }
+.stats { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.stats .stat { grid-template-columns: 44px max-content 1fr; align-items: center; gap: 12px; }
+.mt { margin-top: 24px; }
+.callout { display: flex; flex-direction: column; justify-content: center; }
+.callout p { margin: 0 0 10px; }
+.callout-big { font: 700 52px/1 "Fraunces", serif; color: var(--accent); }
+.muted { color: var(--muted); font-size: 15px; }
 .stat {
   background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 22px; display: grid; gap: 2px;
@@ -105,5 +114,7 @@ figcaption p { margin: 4px 0 12px; color: var(--muted); font-size: 15px; line-he
 .vega-bind-name { margin-right: 6px; }
 
 @media (max-width: 860px) {
-  .grid-2, .grid-wide-left, .stats, .meta { grid-template-columns: 1fr; }
+  .grid-2, .grid-wide-left, .grid-why, .meta { grid-template-columns: 1fr; }
+  .stats .stat { grid-template-columns: 36px 1fr; }
+  .stats .stat-label { grid-column: 2; }
 }

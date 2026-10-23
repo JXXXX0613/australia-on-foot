@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Route map: Australia's long-distance walks, coloured by how much they climb per kilometre (OpenStreetMap + SRTM elevation)",
+  "width": "container",
+  "height": 420,
+  "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-134, 0]},
+  "layer": [
+    {
+      "data": {"url": "data/aus_states.geojson", "format": {"type": "json", "property": "features"}},
+      "mark": {"type": "geoshape", "fill": "#ece4d0", "stroke": "#fffdf7", "strokeWidth": 1}
+    },
+    {
+      "data": {"url": "data/trails.geojson", "format": {"type": "json", "property": "features"}},
+      "params": [
+        {"name": "cls", "select": {"type": "point", "fields": ["properties.climb_class"]}, "bind": "legend"},
+        {"name": "hov", "select": {"type": "point", "on": "pointerover", "clear": "pointerout", "fields": ["properties.trail"]}}
+      ],
+      "mark": {"type": "geoshape", "filled": false, "strokeCap": "round", "strokeJoin": "round"},
+      "encoding": {
+        "stroke": {"field": "properties.climb_class", "type": "nominal", "title": "Climb per km", "scale": {"domain": ["Gentle", "Hilly", "Steep"], "range": ["#5a9e4b", "#3f7fb5", "#c4473a"]}, "legend": {"orient": "bottom", "direction": "horizontal", "symbolType": "stroke", "symbolStrokeWidth": 4}},
+        "strokeWidth": {"condition": {"param": "hov", "empty": false, "value": 6}, "value": 3},
+        "opacity": {"condition": {"param": "cls", "value": 1}, "value": 0.1},
+        "tooltip": [
+          {"field": "properties.trail", "title": "Trail"},
+          {"field": "properties.state", "title": "State"},
+          {"field": "properties.length_km", "title": "Length (km)", "format": ",.0f"},
+          {"field": "properties.ascent_m", "title": "Total climb (m)", "format": ",.0f"},
+          {"field": "properties.ascent_per_km", "title": "Climb per km (m)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [
+        {"lon": 112.6, "lat": -32.6, "t": "Bibbulmun Track"},
+        {"lon": 132.6, "lat": -22.4, "t": "Larapinta Trail"},
+        {"lon": 136.2, "lat": -30.9, "t": "Heysen Trail"}
+      ]},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": 700, "color": "#1d2b22", "align": "center"},
+      "encoding": {"longitude": {"field": "lon"}, "latitude": {"field": "lat"}, "text": {"field": "t"}}
+    }
+  ]
+}

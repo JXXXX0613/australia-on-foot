@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Ranked dot plot: metres climbed per kilometre for each trail; click a dot to highlight its class in the scatterplot",
+  "width": "container",
+  "height": {
+    "step": 15
+  },
+  "data": {
+    "url": "data/trails.csv"
+  },
+  "encoding": {
+    "y": {
+      "field": "trail",
+      "type": "nominal",
+      "sort": null,
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelLimit": 220,
+        "labelFontSize": 11
+      }
+    },
+    "x": {
+      "field": "ascent_per_km",
+      "type": "quantitative",
+      "title": "Metres climbed per km"
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 1.5,
+        "opacity": 0.4
+      },
+      "encoding": {
+        "x": {
+          "datum": 0
+        },
+        "x2": {
+          "field": "ascent_per_km"
+        },
+        "color": {
+          "field": "climb_class",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Gentle",
+              "Hilly",
+              "Steep"
+            ],
+            "range": [
+              "#5a9e4b",
+              "#3f7fb5",
+              "#c4473a"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 70,
+        "cursor": "pointer",
+        "opacity": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "climb_class",
+          "type": "nominal",
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "param": "pick",
+            "value": 1
+          },
+          "value": 0.25
+        },
+        "tooltip": [
+          {
+            "field": "trail"
+          },
+          {
+            "field": "climb_class",
+            "title": "Class"
+          },
+          {
+            "field": "ascent_per_km",
+            "title": "Climb per km (m)",
+            "format": ".0f"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "pick",
+          "select": {
+            "type": "point",
+            "fields": [
+              "climb_class"
+            ],
+            "on": "click"
+          }
+        }
+      ]
+    }
+  ]
+}

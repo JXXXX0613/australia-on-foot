@@ -1,0 +1,40 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth: share of adults who went bushwalking in 2025, by state/territory (AusPlay)",
+  "width": "container",
+  "height": 380,
+  "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-134, 0]},
+  "layer": [
+    {
+      "data": {"url": "data/aus_states.geojson", "format": {"type": "json", "property": "features"}},
+      "transform": [
+        {"lookup": "properties.state", "from": {"data": {"url": "data/ausplay_bushwalking_2025_state.csv"}, "key": "state", "fields": ["participation_pct", "participants"]}}
+      ],
+      "params": [{"name": "hover", "select": {"type": "point", "on": "pointerover", "clear": "pointerout"}}],
+      "mark": {"type": "geoshape", "stroke": "#fffdf7", "strokeWidth": 1},
+      "encoding": {
+        "color": {
+          "field": "participation_pct", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [16, 18, 20, 25], "range": ["#e4eedb", "#b9d6a8", "#82b779", "#4f9157", "#24663d"]},
+          "legend": {"title": "Adults who bushwalk (%)", "orient": "bottom", "direction": "horizontal", "symbolType": "square", "symbolSize": 200}
+        },
+        "stroke": {"condition": {"param": "hover", "empty": false, "value": "#1d2b22"}, "value": "#fffdf7"},
+        "strokeWidth": {"condition": {"param": "hover", "empty": false, "value": 2.5}, "value": 1},
+        "tooltip": [
+          {"field": "properties.name", "title": "State / territory"},
+          {"field": "participation_pct", "title": "Adults who bushwalk (%)", "format": ".1f"},
+          {"field": "participants", "title": "Number of people", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [
+        {"lon": 146.6, "lat": -44.6, "label": "TAS 27.5%: highest"},
+        {"lon": 151.2, "lat": -36.4, "label": "ACT 26.8%"},
+        {"lon": 135.5, "lat": -36.8, "label": "SA 15.4%: lowest"}
+      ]},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": 700, "color": "#1d2b22", "align": "center"},
+      "encoding": {"longitude": {"field": "lon"}, "latitude": {"field": "lat"}, "text": {"field": "label"}}
+    }
+  ]
+}

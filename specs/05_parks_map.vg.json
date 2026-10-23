@@ -1,18 +1,18 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Proportional symbol map: annual visitors to national parks",
+  "description": "Proportional symbol map: every national park in Australia, sized by area (CAPAD 2024)",
   "width": "container",
-  "height": 380,
+  "height": 400,
   "params": [
     {
-      "name": "minV",
+      "name": "minArea",
       "value": 0,
       "bind": {
         "input": "range",
         "min": 0,
-        "max": 1,
-        "step": 0.1,
-        "name": "Hide parks under (million visitors): "
+        "max": 2000,
+        "step": 100,
+        "name": "Hide parks smaller than (km²): "
       }
     }
   ],
@@ -45,14 +45,13 @@
     },
     {
       "data": {
-        "url": "data/parks.csv"
+        "url": "data/national_parks_capad2024.csv"
       },
       "mark": {
         "type": "circle",
-        "fill": "#c8742c",
-        "fillOpacity": 0.65,
-        "stroke": "#7a3f12",
-        "strokeWidth": 0.8
+        "fill": "#4f9157",
+        "stroke": "#24663d",
+        "strokeWidth": 0.5
       },
       "encoding": {
         "longitude": {
@@ -64,35 +63,41 @@
           "type": "quantitative"
         },
         "size": {
-          "field": "visitors_m",
+          "field": "area_km2",
           "type": "quantitative",
           "scale": {
             "type": "sqrt",
             "range": [
-              15,
-              1400
+              4,
+              900
             ],
             "domain": [
               0,
-              2.7
+              36000
             ]
           },
           "legend": {
-            "title": "Visitors (millions)",
+            "title": "Park area (km²)",
             "orient": "bottom",
+            "direction": "horizontal",
             "values": [
-              0.1,
-              0.5,
-              1,
-              2
+              500,
+              5000,
+              20000
             ],
-            "symbolFillColor": "#c8742c",
-            "symbolOpacity": 0.65,
-            "direction": "horizontal"
+            "symbolFillColor": "#4f9157",
+            "symbolOpacity": 0.5
           }
         },
+        "opacity": {
+          "condition": {
+            "test": "datum.area_km2 >= minArea",
+            "value": 0.5
+          },
+          "value": 0.03
+        },
         "order": {
-          "field": "visitors_m",
+          "field": "area_km2",
           "sort": "descending"
         },
         "tooltip": [
@@ -104,36 +109,29 @@
             "field": "state"
           },
           {
-            "field": "visitors_m",
-            "title": "Visitors (m / yr)",
-            "format": ".2f"
+            "field": "area_km2",
+            "title": "Area (km²)",
+            "format": ",.0f"
           }
-        ],
-        "opacity": {
-          "condition": {
-            "test": "datum.visitors_m >= minV",
-            "value": 1
-          },
-          "value": 0.06
-        }
+        ]
       }
     },
     {
       "data": {
         "values": [
           {
-            "lon": 141.5,
-            "lat": -40.6,
-            "t": "Busiest parks cluster in the south-east ↗"
+            "lon": 137.6,
+            "lat": -22.6,
+            "t": "Largest: Munga-Thirri–Simpson Desert, 36,000 km²"
           }
         ]
       },
       "mark": {
         "type": "text",
-        "align": "center",
         "fontSize": 11,
-        "fontWeight": 600,
-        "color": "#1d2b22"
+        "fontWeight": 700,
+        "color": "#1d2b22",
+        "align": "center"
       },
       "encoding": {
         "longitude": {

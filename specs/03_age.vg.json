@@ -1,0 +1,117 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar chart: bushwalking participation by age group, 2025 (AusPlay)",
+  "width": "container",
+  "height": 280,
+  "data": {
+    "url": "data/ausplay_bushwalking_2025_age.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "ordinal",
+          "sort": null,
+          "title": "Age group",
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "participation_pct",
+          "type": "quantitative",
+          "title": "Adults who bushwalk (%)",
+          "scale": {
+            "domain": [
+              0,
+              25
+            ]
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.age == '35-44'",
+            "value": "#2f5a3a"
+          },
+          "value": "#9cbf94"
+        },
+        "tooltip": [
+          {
+            "field": "age",
+            "title": "Age"
+          },
+          {
+            "field": "participation_pct",
+            "title": "Participation (%)"
+          },
+          {
+            "field": "participants",
+            "title": "People",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -8,
+        "fontSize": 11,
+        "color": "#4a4a42"
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "ordinal",
+          "sort": null
+        },
+        "y": {
+          "field": "participation_pct",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "participation_pct",
+          "format": ".1f"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "age": "65+",
+            "y": 23.5,
+            "t": "Halves after 65"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": "#1d2b22",
+        "align": "center",
+        "dx": 0
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}

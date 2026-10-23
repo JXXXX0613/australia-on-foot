@@ -1,0 +1,26 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Waffle chart: share of Australian adults who went bushwalking in 2025 (AusPlay)",
+  "width": 260,
+  "height": 260,
+  "data": {"url": "data/ausplay_bushwalking_2025_state.csv"},
+  "transform": [
+    {"filter": "datum.state == 'AUS'"},
+    {"calculate": "sequence(0, 100)", "as": "cell"},
+    {"flatten": ["cell"]},
+    {"calculate": "datum.cell % 10", "as": "col"},
+    {"calculate": "floor(datum.cell / 10)", "as": "row"},
+    {"calculate": "datum.cell < round(datum.participation_pct) ? 'Went bushwalking' : 'Did not'", "as": "group"}
+  ],
+  "mark": {"type": "square", "size": 330, "opacity": 1},
+  "encoding": {
+    "x": {"field": "col", "type": "ordinal", "axis": null},
+    "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "descending"},
+    "color": {
+      "field": "group", "type": "nominal",
+      "scale": {"domain": ["Went bushwalking", "Did not"], "range": ["#2f5a3a", "#e4dccb"]},
+      "legend": {"orient": "bottom", "title": "1 square = 1% of adults", "titleFontWeight": 400}
+    },
+    "tooltip": [{"field": "participation_pct", "title": "Adults who bushwalked (%)"}, {"field": "participants", "title": "People", "format": ",.0f"}]
+  }
+}
