@@ -216,5 +216,11 @@
         }
       }
     }
-  ]
+  ],
+  "padding": {
+    "left": 4,
+    "right": 34,
+    "top": 4,
+    "bottom": 4
+  }
 }

@@ -62,7 +62,9 @@
     "header": {
       "labelFontSize": 12,
       "labelFontWeight": 600,
-      "labelColor": "#1d2b22"
+      "labelColor": "#1d2b22",
+      "labelExpr": "split(datum.value, ' · ')",
+      "labelLineHeight": 15
     }
   },
   "columns": 4,

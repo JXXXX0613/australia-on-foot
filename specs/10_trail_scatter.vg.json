@@ -35,7 +35,8 @@
           500,
           1000,
           2000
-        ]
+        ],
+        "labelExpr": "width < 500 && indexof([5, 20, 50, 200, 500, 2000], datum.value) >= 0 ? '' : datum.label"
       }
     },
     "y": {
@@ -90,7 +91,8 @@
           },
           "legend": {
             "title": "Climb per km",
-            "orient": "top-left"
+            "orient": "bottom",
+            "direction": "horizontal"
           }
         },
         "opacity": {
@@ -128,13 +130,39 @@
     {
       "transform": [
         {
-          "filter": "indexof(['Bibbulmun Track','Australian Alps Walking Track','Larapinta Trail','Overland Track','Kiama Coast Walk','Stirling Range Ridge Walk','Yuraygir Coastal Walk'], datum.trail) >= 0"
+          "filter": "indexof(['Larapinta Trail','Overland Track','Kiama Coast Walk','Stirling Range Ridge Walk','Yuraygir Coastal Walk'], datum.trail) >= 0"
         }
       ],
       "mark": {
         "type": "text",
         "align": "left",
         "dx": 9,
+        "fontSize": 11,
+        "color": "#1d2b22"
+      },
+      "encoding": {
+        "text": {
+          "field": "trail"
+        },
+        "opacity": {
+          "condition": {
+            "test": "selClass == null || datum.climb_class == selClass",
+            "value": 1
+          },
+          "value": 0.1
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "indexof(['Bibbulmun Track','Australian Alps Walking Track'], datum.trail) >= 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -9,
         "fontSize": 11,
         "color": "#1d2b22"
       },

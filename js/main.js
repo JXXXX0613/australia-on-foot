@@ -18,7 +18,29 @@ const specs = [
   "12_slope_2024_2025", "13_rain_radial", "14_difficulty_share"
 ];
 
-Promise.all(specs.map((name, i) => vegaEmbed(`#vis${i + 1}`, `specs/${name}.vg.json`, opts))).then(results => {
+// The rainfall small multiples use fixed sizes, so pick 2 or 4 columns to fit the screen
+async function load(name, el) {
+  const spec = await (await fetch(`specs/${name}.vg.json`)).json();
+  if (name === "13_rain_radial") {
+    const w = document.querySelector(el).clientWidth;
+    const narrow = w < 820;
+    spec.columns = narrow ? 2 : 4;
+    const size = narrow ? Math.min(180, Math.floor((w - 56) / 2)) : 180;
+    if (narrow) spec.spacing = 12;
+    const k = size / 180;
+    spec.spec.width = size;
+    spec.spec.height = size + 20;
+    const [arcs, labels] = spec.spec.layer;
+    const c = size / 2, r = narrow ? c - 8 : 94 * k, mid = (size + 20) / 2;
+    arcs.mark.innerRadius = 14 * k;
+    arcs.encoding.radius.scale.range = [14 * k, narrow ? c - 20 : 84 * k];
+    labels.transform[1].calculate = `{1:${c},4:${c + r},7:${c},10:${c - r}}[datum.month]`;
+    labels.transform[2].calculate = `{1:${mid - r},4:${mid},7:${mid + r},10:${mid}}[datum.month]`;
+  }
+  return vegaEmbed(el, spec, opts);
+}
+
+Promise.all(specs.map((name, i) => load(name, `#vis${i + 1}`))).then(results => {
   // Clicking a trail in the ranking (vis11) highlights its climb class in the scatterplot (vis10)
   const scatter = results[9].view;
   const ranking = results[10].view;

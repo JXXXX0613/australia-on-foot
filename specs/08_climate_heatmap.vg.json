@@ -59,7 +59,8 @@
             "orient": "top",
             "labelAngle": 0,
             "domain": false,
-            "ticks": false
+            "ticks": false,
+            "labelExpr": "width < 500 ? substring(datum.label, 0, 1) : datum.label"
           }
         },
         "y": {
@@ -73,7 +74,8 @@
           "axis": {
             "domain": false,
             "ticks": false,
-            "labelLimit": 220
+            "labelLimit": 220,
+            "labelExpr": "width < 500 ? replace(datum.label, / \\(.*\\)/, '') : datum.label"
           }
         },
         "color": {
@@ -91,7 +93,7 @@
           "legend": {
             "title": "Average daily high (°C)",
             "orient": "bottom",
-            "gradientLength": 260
+            "gradientLength": 200
           }
         },
         "opacity": {
@@ -174,6 +176,13 @@
             "value": "#ffffff"
           },
           "value": "#1d2b22"
+        },
+        "opacity": {
+          "condition": {
+            "test": "width < 500",
+            "value": 0
+          },
+          "value": 1
         }
       }
     }
