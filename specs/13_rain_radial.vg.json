@@ -1,0 +1,188 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Radial bar charts (small multiples): monthly rainfall in 2025 at four national parks (Open-Meteo / ERA5)",
+  "data": {
+    "url": "data/park_climate_2025.csv",
+    "format": {
+      "parse": {
+        "month": "number",
+        "rain_mm": "number",
+        "mean_max_temp_c": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "indexof(['Kakadu','Uluru-Kata Tjuta','Blue Mountains','Cradle Mountain-Lake St Clair'], datum.park) >= 0"
+    },
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.month - 1]",
+      "as": "mon"
+    },
+    {
+      "calculate": "datum.month - 1",
+      "as": "start"
+    },
+    {
+      "calculate": "datum.month - 0.5",
+      "as": "mid"
+    },
+    {
+      "calculate": "datum.park == 'Cradle Mountain-Lake St Clair' ? 'Cradle Mtn (TAS)' : (datum.park == 'Uluru-Kata Tjuta' ? 'Uluru (NT)' : datum.park + ' (' + datum.state + ')')",
+      "as": "label"
+    },
+    {
+      "calculate": "indexof(['Kakadu','Uluru-Kata Tjuta','Blue Mountains','Cradle Mountain-Lake St Clair'], datum.park)",
+      "as": "ord"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "rain_mm",
+          "as": "annual"
+        }
+      ],
+      "groupby": [
+        "park"
+      ]
+    },
+    {
+      "calculate": "datum.label + ' · ' + format(datum.annual, ',.0f') + ' mm/yr'",
+      "as": "facetTitle"
+    }
+  ],
+  "facet": {
+    "field": "facetTitle",
+    "type": "nominal",
+    "sort": {
+      "field": "ord"
+    },
+    "title": null,
+    "header": {
+      "labelFontSize": 12,
+      "labelFontWeight": 600,
+      "labelColor": "#1d2b22"
+    }
+  },
+  "columns": 4,
+  "spacing": 20,
+  "spec": {
+    "width": 180,
+    "height": 200,
+    "layer": [
+      {
+        "mark": {
+          "type": "arc",
+          "innerRadius": 14,
+          "stroke": "#fffdf7",
+          "strokeWidth": 1,
+          "padAngle": 0.01
+        },
+        "encoding": {
+          "theta": {
+            "field": "start",
+            "type": "quantitative",
+            "stack": null,
+            "scale": {
+              "domain": [
+                0,
+                12
+              ],
+              "range": [
+                0,
+                6.2832
+              ]
+            }
+          },
+          "radius": {
+            "field": "rain_mm",
+            "type": "quantitative",
+            "scale": {
+              "type": "sqrt",
+              "domain": [
+                0,
+                400
+              ],
+              "range": [
+                14,
+                84
+              ],
+              "zero": false
+            }
+          },
+          "color": {
+            "field": "rain_mm",
+            "type": "quantitative",
+            "scale": {
+              "scheme": "blues",
+              "domain": [
+                0,
+                400
+              ]
+            },
+            "legend": {
+              "title": "Rain in month (mm)",
+              "orient": "bottom",
+              "gradientLength": 220
+            }
+          },
+          "tooltip": [
+            {
+              "field": "label",
+              "title": "Park"
+            },
+            {
+              "field": "mon",
+              "title": "Month"
+            },
+            {
+              "field": "rain_mm",
+              "title": "Rain (mm)",
+              "format": ",.0f"
+            }
+          ],
+          "theta2": {
+            "field": "month"
+          }
+        }
+      },
+      {
+        "transform": [
+          {
+            "filter": "indexof([1,4,7,10], datum.month) >= 0"
+          },
+          {
+            "calculate": "{1:90,4:184,7:90,10:-4}[datum.month]",
+            "as": "xp"
+          },
+          {
+            "calculate": "{1:6,4:100,7:196,10:100}[datum.month]",
+            "as": "yp"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "fontSize": 10,
+          "color": "#5d6458",
+          "baseline": "middle"
+        },
+        "encoding": {
+          "x": {
+            "field": "xp",
+            "type": "quantitative",
+            "scale": null
+          },
+          "y": {
+            "field": "yp",
+            "type": "quantitative",
+            "scale": null
+          },
+          "text": {
+            "field": "mon"
+          }
+        }
+      }
+    ]
+  }
+}

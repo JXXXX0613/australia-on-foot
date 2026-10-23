@@ -1,0 +1,220 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Slope chart: bushwalking participation by state, 2024 vs 2025 (AusPlay)",
+  "width": "container",
+  "height": 340,
+  "data": {
+    "url": "data/ausplay_bushwalking_state_2024_2025.csv"
+  },
+  "transform": [
+    {
+      "pivot": "year",
+      "value": "participation_pct",
+      "groupby": [
+        "state"
+      ]
+    },
+    {
+      "calculate": "datum['2025'] - datum['2024']",
+      "as": "change"
+    },
+    {
+      "fold": [
+        "2024",
+        "2025"
+      ],
+      "as": [
+        "year",
+        "pct"
+      ]
+    },
+    {
+      "calculate": "datum.state == 'AUS' ? 'National' : datum.state",
+      "as": "label"
+    },
+    {
+      "calculate": "datum.state == 'AUS' ? 'National' : (datum.change < 0 ? 'Fell' : 'Rose')",
+      "as": "trend"
+    },
+    {
+      "calculate": "datum.label + '  ' + (datum.change > 0 ? '+' : '') + format(datum.change, '.1f')",
+      "as": "endLabel"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": null,
+      "axis": {
+        "labelAngle": 0,
+        "labelFontSize": 13,
+        "labelFontWeight": 700,
+        "domain": false,
+        "ticks": false,
+        "orient": "top"
+      },
+      "scale": {
+        "padding": 0.6
+      }
+    },
+    "y": {
+      "field": "pct",
+      "type": "quantitative",
+      "title": "Adults who bushwalk (%)",
+      "scale": {
+        "domain": [
+          14,
+          28.5
+        ]
+      }
+    },
+    "color": {
+      "field": "trend",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Rose",
+          "Fell",
+          "National"
+        ],
+        "range": [
+          "#4f9157",
+          "#c4473a",
+          "#1d2b22"
+        ]
+      },
+      "legend": {
+        "title": null,
+        "orient": "bottom",
+        "direction": "horizontal"
+      }
+    },
+    "detail": {
+      "field": "state"
+    },
+    "opacity": {
+      "condition": {
+        "param": "hl",
+        "empty": true,
+        "value": 1
+      },
+      "value": 0.2
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "strokeDash": {
+          "condition": {
+            "test": "datum.state == 'AUS'",
+            "value": [
+              5,
+              3
+            ]
+          },
+          "value": [
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 70,
+        "opacity": 1
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "label",
+            "title": "Area"
+          },
+          {
+            "field": "year"
+          },
+          {
+            "field": "pct",
+            "title": "Participation (%)"
+          },
+          {
+            "field": "change",
+            "title": "Change (points)",
+            "format": "+.1f"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "hl",
+          "select": {
+            "type": "point",
+            "fields": [
+              "state"
+            ],
+            "on": "pointerover",
+            "clear": "pointerout"
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == '2025'"
+        },
+        {
+          "calculate": "datum.pct + ({'QLD':0.35,'AUS':-0.05,'NSW':-0.5,'WA':0.25,'NT':0.15}[datum.state] || 0)",
+          "as": "labelY"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 12,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "y": {
+          "field": "labelY",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "endLabel"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == '2024' && indexof(['TAS','ACT','SA','VIC','AUS'], datum.state) >= 0"
+        },
+        {
+          "calculate": "datum.state == 'AUS' ? 'National ' + format(datum.pct, '.1f') : format(datum.pct, '.1f')",
+          "as": "startLabel"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "fontSize": 11
+      },
+      "encoding": {
+        "text": {
+          "field": "startLabel"
+        },
+        "color": {
+          "value": "#5d6458"
+        }
+      }
+    }
+  ]
+}

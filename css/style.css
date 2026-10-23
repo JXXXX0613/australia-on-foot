@@ -118,3 +118,5 @@ figcaption p { margin: 4px 0 12px; color: var(--muted); font-size: 15px; line-he
   .stats .stat { grid-template-columns: 36px 1fr; }
   .stats .stat-label { grid-column: 2; }
 }
+
+.vis-center { display: flex; justify-content: center; overflow-x: auto; }
