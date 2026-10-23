@@ -1,0 +1,33 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "100% stacked bar: share of the 32 long-distance walks in each climb class; click a segment to highlight it in the scatterplot",
+  "width": "container",
+  "height": 60,
+  "data": {"url": "data/trails.csv"},
+  "transform": [
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["climb_class"]},
+    {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]},
+    {"calculate": "datum.n / datum.total", "as": "share"},
+    {"calculate": "indexof(['Gentle','Hilly','Steep'], datum.climb_class)", "as": "ord"},
+    {"stack": "share", "groupby": [], "sort": [{"field": "ord"}], "as": ["x0", "x1"]},
+    {"calculate": "(datum.x0 + datum.x1) / 2", "as": "mid"},
+    {"calculate": "datum.climb_class + ' ' + format(datum.share, '.0%')", "as": "lab"}
+  ],
+  "layer": [
+    {
+      "params": [{"name": "pickShare", "select": {"type": "point", "fields": ["climb_class"], "on": "click"}}],
+      "mark": {"type": "bar", "cursor": "pointer", "stroke": "#fffdf7", "strokeWidth": 2},
+      "encoding": {
+        "x": {"field": "x0", "type": "quantitative", "scale": {"domain": [0, 1]}, "axis": {"format": "%", "title": null, "grid": false, "values": [0, 0.25, 0.5, 0.75, 1]}},
+        "x2": {"field": "x1"},
+        "color": {"field": "climb_class", "type": "nominal", "scale": {"domain": ["Gentle", "Hilly", "Steep"], "range": ["#5a9e4b", "#3f7fb5", "#c4473a"]}, "legend": null},
+        "opacity": {"condition": {"param": "pickShare", "value": 1}, "value": 0.3},
+        "tooltip": [{"field": "climb_class", "title": "Climb class"}, {"field": "n", "title": "Walks"}, {"field": "share", "format": ".0%", "title": "Share"}]
+      }
+    },
+    {
+      "mark": {"type": "text", "color": "#fffdf7", "fontWeight": 700, "fontSize": 12},
+      "encoding": {"x": {"field": "mid", "type": "quantitative"}, "text": {"field": "lab"}}
+    }
+  ]
+}

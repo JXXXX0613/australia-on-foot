@@ -119,4 +119,5 @@ figcaption p { margin: 4px 0 12px; color: var(--muted); font-size: 15px; line-he
   .stats .stat-label { grid-column: 2; }
 }
 
-.vis-center { display: flex; justify-content: center; overflow-x: auto; }
+.vis-center { display: block !important; max-width: 100%; overflow-x: auto; }
+.card { min-width: 0; }
